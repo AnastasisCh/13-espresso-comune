@@ -9,6 +9,7 @@ import { TRANSLATIONS } from './config/translations';
 @Component({ selector: 'app-root', standalone: true, imports: [CommonModule, FormsModule], templateUrl: './app.component.html', styleUrl: './app.component.scss' })
 export class AppComponent implements OnInit {
   readonly config = SITE_CONFIG;
+  readonly mapEmbedUrl: SafeResourceUrl;
   isScrolled = false; menuOpen = false;
   theme: Theme = SITE_CONFIG.theme.default;
   culture: Culture = 'el';
@@ -16,7 +17,12 @@ export class AppComponent implements OnInit {
   isSubmitting = false; submitSuccess = false; submitError = false;
   reviews: any[] = []; reviewsLoading = false; reviewsError = false;
 
-  constructor(private http: HttpClient, private renderer: Renderer2, private sanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient, private renderer: Renderer2, private sanitizer: DomSanitizer) {
+    const { lat, lng } = SITE_CONFIG.location;
+    this.mapEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+    );
+  }
 
   ngOnInit() {
     const savedTheme = localStorage.getItem('theme') as Theme;
@@ -40,17 +46,6 @@ export class AppComponent implements OnInit {
   }
   get themeIcon() { return this.theme === 'dark' ? '☀️' : '🌙'; }
   get cultureLabel() { return this.culture === 'el' ? 'EN' : 'ΕΛ'; }
-  get mapEmbedUrl(): SafeResourceUrl { const { lat, lng } = this.config.location; return this.sanitizer.bypassSecurityTrustResourceUrl(`https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`); }
-  openMap() { window.open(this.config.location.mapsUrl, '_blank', 'noopener'); }
-  submitReservation(ngForm: NgForm) {
-    this.isSubmitting = true; this.submitSuccess = false; this.submitError = false;
-    const payload = { name: this.reservation.name, email: this.reservation.email, phone: this.reservation.phone, date: new Date(`${this.reservation.date}T${this.reservation.time}`).toISOString(), time: this.reservation.time, partySize: Number(this.reservation.partySize), notes: this.reservation.notes, market: this.config.api.market, culture: this.reservation.culture };
-    const headers = new HttpHeaders({ 'X-Market': this.config.api.market, 'Content-Type': 'application/json' });
-    this.http.post(`${this.config.api.baseUrl}/api/Reservations/CreateReservation`, payload, { headers }).subscribe({
-      next: () => { this.isSubmitting = false; this.submitSuccess = true; this.reservation = { name: '', email: '', phone: '', date: '', time: this.config.reservation.defaultTime, partySize: this.config.reservation.defaultPartySize, notes: '', culture: this.culture }; ngForm.resetForm(this.reservation); },
-      error: () => { this.isSubmitting = false; this.submitError = true; }
-    });
-  }
   loadReviews() {
     this.reviewsLoading = true;
     this.http.get<any>(`${this.config.api.baseUrl}/SerpAPI?market=${this.config.api.market}`).subscribe({
