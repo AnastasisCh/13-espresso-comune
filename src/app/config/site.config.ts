@@ -2,7 +2,7 @@ export type Theme = 'dark' | 'light';
 export type Culture = 'el' | 'en';
 
 export const SITE_CONFIG = {
-  api: { baseUrl: 'http://localhost:5007', market: 'espresso-comune' },
+  api: { baseUrl: 'https://marketswebapi-gde3hpftfdhuawaj.westeurope-01.azurewebsites.net', market: 'EspressoComune' },
   theme: {
     default: 'light' as Theme,
     colors: {
