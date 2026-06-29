@@ -1,0 +1,35 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+
+:root {
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --container: 1280px;
+  --radius: 4px;
+  --transition: 0.3s ease;
+  /* defaults overridden at runtime by applyTheme() */
+  --background: #fdf6ee;
+  --surface: #ffffff;
+  --surface-alt: #f5ede0;
+  --text: #1c1008;
+  --text-muted: rgba(28,16,8,0.5);
+  --accent: #c06030;
+  --accent-hover: #a04020;
+  --border: rgba(192,96,48,0.18);
+  --nav-bg: rgba(253,246,238,0.97);
+  --overlay: rgba(28,16,8,0.55);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--background); color: var(--text); line-height: 1.7; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 2.5rem; }
+
+.section-label { display: block; font-family: var(--font-body); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: var(--text); line-height: 1.1; margin-bottom: 1.25rem; em { font-style: italic; font-weight: 400; color: var(--accent); } }
+
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: var(--transition); border-radius: var(--radius); }
+.btn-primary { background: var(--accent); color: #fff; &:hover { background: var(--accent-hover); } }
+.btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--text); &:hover { background: var(--text); color: var(--background); } }
