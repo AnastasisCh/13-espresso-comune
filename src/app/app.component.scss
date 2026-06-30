@@ -111,6 +111,24 @@
   .stats-band { flex-wrap: wrap; gap: 1.5rem; }
 }
 
+@media (max-width: 480px) {
+  .nav-inner { padding: 0.75rem 1rem; }
+  .nav-controls { gap: 0.3rem; }
+  .icon-btn, .culture-btn { padding: 0.25rem 0.45rem; font-size: 0.7rem; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-image { height: 45vw; }
+  .hero-content { padding: 2.5rem 1rem; }
+  .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .about-content { padding: 2rem 1.25rem; }
+  .menu-section { padding: 4rem 0; }
+  .contact-section { grid-template-columns: 1fr; }
+  .contact-info { padding: 2rem 1rem; }
+  .contact-form-wrap { padding: 2rem 1rem; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .section-title { font-size: clamp(1.6rem, 6vw, 2rem); }
+}
+
 .btn-spinner {
   display: inline-block;
   width: 0.9em;
